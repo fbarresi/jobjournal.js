@@ -26,15 +26,15 @@
   "commands": {
     "start": {
       "suggested_key": {
-        "default": "Ctrl+Shift+S",
-        "mac": "Command+Shift+U"
+        "default": "Ctrl+Shift+I",
+        "mac": "Command+Shift+I"
       },
       "description": "Start"
     },
     "stop": {
       "suggested_key": {
-        "default": "Ctrl+Shift+X",
-        "mac": "MacCtrl+Shift+X"
+        "default": "Ctrl+Shift+O",
+        "mac": "MacCtrl+Shift+O"
       },
       "description": "Stop"
     }
