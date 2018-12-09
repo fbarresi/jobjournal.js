@@ -1,6 +1,9 @@
-var state = "idle";
+var state = "stopped";
 var project = "";
-var startTime = null;
+var task = "";
+var startTime = 0;
+var endTime = 0;
+var daylyOffset = 0
 
 //sends reponses to and from the popup menu
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -9,10 +12,21 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     } else if (request.name === "start") {
         state = "running";
+        startTime = Date.now();
+        if(endTime != 0)
+          daylyOffset += Math.abs(endTime - startTime);
+        endTime = 0;
     } else if (request.name === "stop") {
         state = "stopped";
+        endTime = Date.now();
     } else if (request.name === "change") {
-        state = "running";
+        if (state === "stopped") {
+            state = "running";
+            startTime = Date.now();
+            if(endTime != 0)
+              daylyOffset += Math.abs(endTime - startTime);
+            endTime = 0;
+        }
         project = request.project;
     }
     console.log("request: ");
@@ -20,7 +34,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     let response = {
         name: request.name,
         state: state,
-        project: project
+        project: project,
+        startTime: startTime,
+        endTime: endTime,
+        daylyOffset: daylyOffset
     };
     console.log("response: ");
     console.log(response);
